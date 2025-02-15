@@ -1,0 +1,1 @@
+enum FormTypeEnum { login, signUp }
