@@ -41,6 +41,7 @@ class _AuthTextFormFieldState extends State<AuthTextFormField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      controller: widget.controller,
       validator: (value) {
         if (value == null || value.isEmpty) {
           return "$_validationFieldTypeString is missing!";

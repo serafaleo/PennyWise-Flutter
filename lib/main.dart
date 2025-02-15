@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:pennywise/core/configs/theme.dart';
 import 'package:pennywise/core/router.dart';
+import 'package:pennywise/core/service_locator.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+  setupServiceLocator();
   runApp(const MainApp());
 }
 
@@ -14,19 +16,9 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       title: 'PennyWise',
-      theme: _buildTheme(Brightness.light),
-      darkTheme: _buildTheme(Brightness.dark),
+      theme: buildTheme(Brightness.light),
+      darkTheme: buildTheme(Brightness.dark),
       routerConfig: router,
     );
-  }
-
-  ThemeData _buildTheme(brightness) {
-    ThemeData baseTheme = ThemeData(
-      brightness: brightness,
-      useMaterial3: true,
-      colorScheme: ColorScheme.fromSeed(seedColor: Colors.cyan, brightness: brightness),
-    );
-
-    return baseTheme.copyWith(textTheme: GoogleFonts.poppinsTextTheme(baseTheme.textTheme));
   }
 }

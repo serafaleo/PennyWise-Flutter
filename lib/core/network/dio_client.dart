@@ -1,0 +1,31 @@
+import 'dart:io';
+
+import 'package:dio/dio.dart';
+import 'package:dio/io.dart';
+import 'package:flutter/foundation.dart';
+import 'package:pennywise/core/constants/api_constants.dart';
+import 'package:pennywise/core/network/interceptors/refresh_token_interceptor.dart';
+
+class DioClient {
+  late final Dio _dio = Dio(
+      BaseOptions(
+        baseUrl: ApiConstants.baseUrl,
+        headers: {'Content-Type': 'application/json; charset=UTF-8'},
+        responseType: ResponseType.json,
+        //sendTimeout: const Duration(seconds: 10),
+        //receiveTimeout: const Duration(seconds: 10),
+        validateStatus: (status) => true,
+      ),
+    )
+    ..httpClientAdapter = IOHttpClientAdapter(
+      createHttpClient: () {
+        final HttpClient client = HttpClient(context: SecurityContext(withTrustedRoots: false));
+        client.badCertificateCallback = (cert, host, port) => kDebugMode ? true : false; // TODO(serafa.leo): Test this
+        return client;
+      },
+    );
+
+  Future<Response> post(String url, {Object? data}) async {
+    return await _dio.post(url, data: data);
+  }
+}

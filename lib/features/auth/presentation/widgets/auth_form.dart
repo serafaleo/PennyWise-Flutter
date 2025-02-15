@@ -16,9 +16,9 @@ class _AuthFormState extends State<AuthForm> {
   late String _passwordHint;
   late String _buttonText;
 
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
-  final passwordConfirmController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _passwordConfirmController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
 
@@ -45,13 +45,13 @@ class _AuthFormState extends State<AuthForm> {
       child: Column(
         children: [
           AuthTextFormField(
-            controller: emailController,
+            controller: _emailController,
             hintText: "Enter your email",
             fieldType: FormFieldTypeEnum.email,
           ),
           SizedBox(height: 20),
           AuthTextFormField(
-            controller: passwordController,
+            controller: _passwordController,
             hintText: _passwordHint,
             fieldType: FormFieldTypeEnum.password,
           ),
@@ -61,7 +61,7 @@ class _AuthFormState extends State<AuthForm> {
               children: [
                 SizedBox(height: 20),
                 AuthTextFormField(
-                  controller: passwordConfirmController,
+                  controller: _passwordConfirmController,
                   hintText: "Confirm the password",
                   fieldType: FormFieldTypeEnum.password,
                 ),
@@ -78,11 +78,7 @@ class _AuthFormState extends State<AuthForm> {
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
             ),
             onPressed: () {
-              if (_formKey.currentState!.validate()) {
-                ScaffoldMessenger.of(
-                  context,
-                ).showSnackBar(const SnackBar(content: Text('Processing Data')));
-              }
+              if (_formKey.currentState!.validate()) {}
             },
             child: Text(
               _buttonText,
