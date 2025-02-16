@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fpdart/fpdart.dart';
@@ -14,42 +16,46 @@ part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc() : super(AuthInitialState()) {
-    on<AuthSignUpEvent>((event, emit) async {
-      emit(AuthLoadingState());
-      final result = await sl<SignUpUseCase>().call(
-        SignupRequestEntity(
-          email: event.email,
-          password: event.password,
-          passwordConfirmation: event.passwordConfirmation,
-        ),
-      );
+    on<AuthSignUpEvent>(_onAuthSignUp);
+    on<AuthLoginEvent>(_onAuthLogin);
+    on<AuthLogoutEvent>(_onAuthLogout);
+  }
 
-      result.fold(
-        (failure) => emit(AuthFailureState(failure: failure)),
-        (unit) => emit(AuthSuccessState()),
-      );
-    });
+  FutureOr<void> _onAuthSignUp(AuthSignUpEvent event, Emitter<AuthState> emit) async {
+    emit(AuthLoadingState());
+    final result = await sl<SignUpUseCase>().call(
+      SignupRequestEntity(
+        email: event.email,
+        password: event.password,
+        passwordConfirmation: event.passwordConfirmation,
+      ),
+    );
 
-    on<AuthLoginEvent>((event, emit) async {
-      emit(AuthLoadingState());
-      final result = await sl<LoginUseCase>().call(
-        LoginRequestEntity(email: event.email, password: event.password),
-      );
+    result.fold(
+      (failure) => emit(AuthFailureState(failure: failure)),
+      (unit) => emit(AuthSuccessState()),
+    );
+  }
 
-      result.fold(
-        (failure) => emit(AuthFailureState(failure: failure)),
-        (unit) => emit(AuthSuccessState()),
-      );
-    });
+  FutureOr<void> _onAuthLogin(AuthLoginEvent event, Emitter<AuthState> emit) async {
+    emit(AuthLoadingState());
+    final result = await sl<LoginUseCase>().call(
+      LoginRequestEntity(email: event.email, password: event.password),
+    );
 
-    on<AuthLogoutEvent>((event, emit) async {
-      emit(AuthLoadingState());
-      final result = await sl<LogoutUseCase>().call(unit);
+    result.fold(
+      (failure) => emit(AuthFailureState(failure: failure)),
+      (unit) => emit(AuthSuccessState()),
+    );
+  }
 
-      result.fold(
-        (failure) => emit(AuthFailureState(failure: failure)),
-        (unit) => emit(AuthSuccessState()),
-      );
-    });
+  FutureOr<void> _onAuthLogout(AuthLogoutEvent event, Emitter<AuthState> emit) async {
+    emit(AuthLoadingState());
+    final result = await sl<LogoutUseCase>().call(unit);
+
+    result.fold(
+      (failure) => emit(AuthFailureState(failure: failure)),
+      (unit) => emit(AuthSuccessState()),
+    );
   }
 }
