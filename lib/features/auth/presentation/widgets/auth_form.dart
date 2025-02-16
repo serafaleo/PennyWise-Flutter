@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pennywise/core/widgets/loader_indicator.dart';
 import 'package:pennywise/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:pennywise/features/auth/presentation/enums/form_field_type_enum.dart';
 import 'package:pennywise/features/auth/presentation/enums/form_type_enum.dart';
@@ -42,63 +43,90 @@ class _AuthFormState extends State<AuthForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Form(
-      key: _formKey,
-      child: Column(
-        children: [
-          AuthTextFormField(
-            controller: _emailController,
-            hintText: "Enter your email",
-            fieldType: FormFieldTypeEnum.email,
-          ),
-          SizedBox(height: 20),
-          AuthTextFormField(
-            controller: _passwordController,
-            hintText: _passwordHint,
-            fieldType: FormFieldTypeEnum.password,
-          ),
-          Visibility(
-            visible: widget.formType == FormTypeEnum.signUp,
-            child: Column(
-              children: [
-                SizedBox(height: 20),
-                AuthTextFormField(
-                  controller: _passwordConfirmController,
-                  hintText: "Confirm the password",
-                  fieldType: FormFieldTypeEnum.password,
+    return BlocConsumer<AuthBloc, AuthState>(
+      listener: (context, state) {
+        if (state is AuthFailureState) {
+          state.failure.show(context);
+        }
+      },
+      builder: (context, state) {
+        return Form(
+          key: _formKey,
+          child: Column(
+            children: [
+              AuthTextFormField(
+                controller: _emailController,
+                hintText: "Enter your email",
+                fieldType: FormFieldTypeEnum.email,
+              ),
+              SizedBox(height: 20),
+              AuthTextFormField(
+                controller: _passwordController,
+                hintText: _passwordHint,
+                fieldType: FormFieldTypeEnum.password,
+              ),
+              Visibility(
+                visible: widget.formType == FormTypeEnum.signUp,
+                child: Column(
+                  children: [
+                    SizedBox(height: 20),
+                    AuthTextFormField(
+                      controller: _passwordConfirmController,
+                      hintText: "Confirm the password",
+                      fieldType: FormFieldTypeEnum.password,
+                    ),
+                  ],
                 ),
-              ],
-            ),
-          ),
-          SizedBox(height: 60),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Theme.of(context).colorScheme.primary.withAlpha(200),
-              elevation: 5,
-              shadowColor: Colors.black,
-              padding: EdgeInsets.symmetric(horizontal: 60, vertical: 15),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-            ),
-            onPressed: () {
-              if (_formKey.currentState!.validate()) {
-                context.read<AuthBloc>().add(
-                  AuthSignUpEvent(
-                    email: _emailController.text.trim(),
-                    password: _passwordController.text.trim(),
-                    passwordConfirmation: _passwordConfirmController.text.trim(),
+              ),
+              SizedBox(height: 60),
+              SizedBox(
+                width: 200,
+                height: 60,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Theme.of(context).colorScheme.primary.withAlpha(200),
+                    elevation: 5,
+                    shadowColor: Colors.black,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
                   ),
-                );
-              }
-            },
-            child: Text(
-              _buttonText,
-              style: Theme.of(
-                context,
-              ).textTheme.headlineSmall!.copyWith(color: Theme.of(context).colorScheme.onPrimary),
-            ),
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      switch (widget.formType) {
+                        case FormTypeEnum.login:
+                          context.read<AuthBloc>().add(
+                            AuthLoginEvent(
+                              email: _emailController.text.trim(),
+                              password: _passwordController.text.trim(),
+                            ),
+                          );
+                          break;
+                        case FormTypeEnum.signUp:
+                          context.read<AuthBloc>().add(
+                            AuthSignUpEvent(
+                              email: _emailController.text.trim(),
+                              password: _passwordController.text.trim(),
+                              passwordConfirmation: _passwordConfirmController.text.trim(),
+                            ),
+                          );
+                          break;
+                      }
+                    }
+                  },
+                  child:
+                      state is AuthLoadingState
+                          ? LoaderIndicator()
+                          : Text(
+                            _buttonText,
+                            style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                              color: Theme.of(context).colorScheme.onPrimary,
+                            ),
+                          ),
+                ),
+              ),
+            ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 }

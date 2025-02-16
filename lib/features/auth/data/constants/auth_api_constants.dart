@@ -1,6 +1,6 @@
 const String _controllerName = 'Users';
 
-class AuthApiConstants {
+final class AuthApiConstants {
   static const String loginUrl = '/$_controllerName/Login';
   static const String signUpUrl = '/$_controllerName/SignUp';
   static const String refreshUrl = '/$_controllerName/Refresh';

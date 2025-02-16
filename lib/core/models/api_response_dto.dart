@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'api_response_dto.g.dart';
 
 @JsonSerializable(genericArgumentFactories: true)
-class ApiResponseDto<T> {
+final class ApiResponseDto<T> {
   final int statusCode;
   final bool success;
   final String? message;

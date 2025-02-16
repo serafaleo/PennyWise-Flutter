@@ -4,9 +4,8 @@ import 'package:dio/dio.dart';
 import 'package:dio/io.dart';
 import 'package:flutter/foundation.dart';
 import 'package:pennywise/core/constants/api_constants.dart';
-import 'package:pennywise/core/network/interceptors/refresh_token_interceptor.dart';
 
-class DioClient {
+final class DioClient {
   late final Dio _dio = Dio(
       BaseOptions(
         baseUrl: ApiConstants.baseUrl,
