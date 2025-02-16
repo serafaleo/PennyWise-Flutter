@@ -12,15 +12,16 @@ import 'package:pennywise/features/auth/domain/usecases/signup_usecase.dart';
 final sl = GetIt.instance;
 
 void setupServiceLocator() {
-  // Core
   sl.registerLazySingleton<DioClient>(() => DioClient());
+
+  // MUST be before AuthSessionManager
   sl.registerLazySingleton<FlutterSecureStorage>(() => FlutterSecureStorage());
   sl.registerLazySingleton<AuthSessionManager>(() => AuthSessionManagerImpl());
 
-  setupAuth();
+  _setupAuth();
 }
 
-void setupAuth() {
+void _setupAuth() {
   // Data Sources
   sl.registerLazySingleton<AuthApiDataSource>(() => AuthApiDataSourceImpl());
 
