@@ -4,15 +4,11 @@ import 'package:pennywise/features/auth/domain/entities/signup_request_entity.da
 part 'signup_request_dto.g.dart';
 
 @JsonSerializable()
-class SignUpRequestDto {
-  final String email;
-  final String password;
-  final String passwordConfirmation;
-
+class SignUpRequestDto extends SignupRequestEntity {
   SignUpRequestDto({
-    required this.email,
-    required this.password,
-    required this.passwordConfirmation,
+    required super.email,
+    required super.password,
+    required super.passwordConfirmation,
   });
 
   factory SignUpRequestDto.fromJson(Map<String, dynamic> json) => _$SignUpRequestDtoFromJson(json);

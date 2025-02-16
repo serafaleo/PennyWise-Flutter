@@ -4,11 +4,8 @@ import 'package:pennywise/features/auth/domain/entities/token_response_entity.da
 part 'token_response_dto.g.dart';
 
 @JsonSerializable()
-class TokenResponseDto {
-  final String accessToken;
-  final String refreshToken;
-
-  TokenResponseDto({required this.accessToken, required this.refreshToken});
+class TokenResponseDto extends TokenResponseEntity {
+  TokenResponseDto({required super.accessToken, required super.refreshToken});
 
   factory TokenResponseDto.fromJson(Map<String, dynamic> json) => _$TokenResponseDtoFromJson(json);
   Map<String, dynamic> toJson() => _$TokenResponseDtoToJson(this);

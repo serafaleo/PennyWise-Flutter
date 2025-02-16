@@ -4,11 +4,11 @@ import 'package:pennywise/features/auth/domain/entities/login_request_entity.dar
 part 'login_request_dto.g.dart';
 
 @JsonSerializable()
-class LoginRequestDto {
-  final String email;
-  final String password;
-
-  LoginRequestDto({required this.email, required this.password});
+class LoginRequestDto extends LoginRequestEntity {
+  LoginRequestDto({
+    required super.email,
+    required super.password
+  });
 
   factory LoginRequestDto.fromJson(Map<String, dynamic> json) => _$LoginRequestDtoFromJson(json);
   Map<String, dynamic> toJson() => _$LoginRequestDtoToJson(this);
