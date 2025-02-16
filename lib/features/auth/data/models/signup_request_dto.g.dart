@@ -8,9 +8,9 @@ part of 'signup_request_dto.dart';
 
 SignUpRequestDto _$SignUpRequestDtoFromJson(Map<String, dynamic> json) =>
     SignUpRequestDto(
-      json['passwordConfirmation'] as String,
       email: json['email'] as String,
       password: json['password'] as String,
+      passwordConfirmation: json['passwordConfirmation'] as String,
     );
 
 Map<String, dynamic> _$SignUpRequestDtoToJson(SignUpRequestDto instance) =>
