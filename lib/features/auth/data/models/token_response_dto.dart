@@ -14,7 +14,10 @@ class TokenResponseDto {
   Map<String, dynamic> toJson() => _$TokenResponseDtoToJson(this);
 
   factory TokenResponseDto.fromDomain(TokenResponseEntity tokenEntity) {
-    return TokenResponseDto(accessToken: tokenEntity.accessToken, refreshToken: tokenEntity.refreshToken);
+    return TokenResponseDto(
+      accessToken: tokenEntity.accessToken,
+      refreshToken: tokenEntity.refreshToken,
+    );
   }
 
   TokenResponseEntity toDomain() {

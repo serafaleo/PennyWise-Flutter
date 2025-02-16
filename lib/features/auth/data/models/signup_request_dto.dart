@@ -9,7 +9,11 @@ class SignUpRequestDto {
   final String password;
   final String passwordConfirmation;
 
-  SignUpRequestDto({required this.email, required this.password, required this.passwordConfirmation});
+  SignUpRequestDto({
+    required this.email,
+    required this.password,
+    required this.passwordConfirmation,
+  });
 
   factory SignUpRequestDto.fromJson(Map<String, dynamic> json) => _$SignUpRequestDtoFromJson(json);
   Map<String, dynamic> toJson() => _$SignUpRequestDtoToJson(this);
@@ -23,6 +27,10 @@ class SignUpRequestDto {
   }
 
   SignupRequestEntity toDomain() {
-    return SignupRequestEntity(email: email, password: password, passwordConfirmation: passwordConfirmation);
+    return SignupRequestEntity(
+      email: email,
+      password: password,
+      passwordConfirmation: passwordConfirmation,
+    );
   }
 }

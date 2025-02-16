@@ -20,7 +20,8 @@ class DioClient {
     ..httpClientAdapter = IOHttpClientAdapter(
       createHttpClient: () {
         final HttpClient client = HttpClient(context: SecurityContext(withTrustedRoots: false));
-        client.badCertificateCallback = (cert, host, port) => kDebugMode ? true : false; // TODO(serafa.leo): Test this
+        client.badCertificateCallback =
+            (cert, host, port) => kDebugMode ? true : false; // TODO(serafa.leo): Test this
         return client;
       },
     );

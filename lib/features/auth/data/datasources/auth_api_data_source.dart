@@ -16,7 +16,10 @@ abstract interface class AuthApiDataSource {
 class AuthApiDataSourceImpl implements AuthApiDataSource {
   @override
   Future<ApiResponseDto<TokenResponseDto>> login(LoginRequestDto loginDto) async {
-    Response response = await sl<DioClient>().post(AuthApiConstants.loginUrl, data: loginDto.toJson());
+    Response response = await sl<DioClient>().post(
+      AuthApiConstants.loginUrl,
+      data: loginDto.toJson(),
+    );
     ApiResponseDto<TokenResponseDto> apiResponse = ApiResponseDto.fromJson(
       response.data,
       (json) => TokenResponseDto.fromJson(json as Map<String, dynamic>),
@@ -26,8 +29,14 @@ class AuthApiDataSourceImpl implements AuthApiDataSource {
 
   @override
   Future<ApiResponseDto<String>> signUp(SignUpRequestDto signUpDto) async {
-    Response response = await sl<DioClient>().post(AuthApiConstants.signUpUrl, data: signUpDto.toJson());
-    ApiResponseDto<String> apiResponse = ApiResponseDto.fromJson(response.data, (json) => json as String);
+    Response response = await sl<DioClient>().post(
+      AuthApiConstants.signUpUrl,
+      data: signUpDto.toJson(),
+    );
+    ApiResponseDto<String> apiResponse = ApiResponseDto.fromJson(
+      response.data,
+      (json) => json as String,
+    );
     return apiResponse;
   }
 

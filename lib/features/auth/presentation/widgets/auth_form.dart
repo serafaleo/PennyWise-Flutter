@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pennywise/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:pennywise/features/auth/presentation/enums/form_field_type_enum.dart';
 import 'package:pennywise/features/auth/presentation/enums/form_type_enum.dart';
 import 'package:pennywise/features/auth/presentation/widgets/auth_text_form_field.dart';
@@ -78,7 +80,15 @@ class _AuthFormState extends State<AuthForm> {
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
             ),
             onPressed: () {
-              if (_formKey.currentState!.validate()) {}
+              if (_formKey.currentState!.validate()) {
+                context.read<AuthBloc>().add(
+                  AuthSignUpEvent(
+                    email: _emailController.text.trim(),
+                    password: _passwordController.text.trim(),
+                    passwordConfirmation: _passwordConfirmController.text.trim(),
+                  ),
+                );
+              }
             },
             child: Text(
               _buttonText,
