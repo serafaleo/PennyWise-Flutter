@@ -5,6 +5,7 @@ class AuthTextFormField extends StatefulWidget {
   final TextEditingController controller;
   final bool isPassword;
   final String? Function(String?) validator;
+  final FocusNode focusNode;
 
   const AuthTextFormField({
     super.key,
@@ -12,6 +13,7 @@ class AuthTextFormField extends StatefulWidget {
     required this.controller,
     required this.isPassword,
     required this.validator,
+    required this.focusNode,
   });
 
   @override
@@ -31,9 +33,10 @@ class _AuthTextFormFieldState extends State<AuthTextFormField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      focusNode: widget.focusNode,
       controller: widget.controller,
       validator: widget.validator,
-      keyboardType: TextInputType.emailAddress,
+      keyboardType: !widget.isPassword ? TextInputType.emailAddress : TextInputType.visiblePassword,
       obscureText: _obscureText,
       decoration: InputDecoration(
         filled: true,
