@@ -6,6 +6,6 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AuthPageLayout(isLogin: true);
+    return const AuthPageLayout(isLogin: true);
   }
 }

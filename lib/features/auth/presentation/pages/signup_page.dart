@@ -6,6 +6,6 @@ class SignUpPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AuthPageLayout(isLogin: false);
+    return const AuthPageLayout(isLogin: false);
   }
 }
