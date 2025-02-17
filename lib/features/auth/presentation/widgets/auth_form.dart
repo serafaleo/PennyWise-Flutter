@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pennywise/core/widgets/loader_indicator.dart';
 import 'package:pennywise/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:pennywise/features/auth/presentation/enums/form_field_type_enum.dart';
@@ -47,6 +48,8 @@ class _AuthFormState extends State<AuthForm> {
       listener: (context, state) {
         if (state is AuthFailureState) {
           state.failure.show(context);
+        } else if (state is LoginSuccessState) {
+          context.go('/');
         }
       },
       builder: (context, state) {

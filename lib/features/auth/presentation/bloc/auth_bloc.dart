@@ -33,7 +33,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     result.fold(
       (failure) => emit(AuthFailureState(failure: failure)),
-      (unit) => emit(AuthSuccessState()),
+      (unit) => emit(SignUpSuccessState()),
     );
   }
 
@@ -45,7 +45,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     result.fold(
       (failure) => emit(AuthFailureState(failure: failure)),
-      (unit) => emit(AuthSuccessState()),
+      (unit) => emit(LoginSuccessState()),
     );
   }
 
@@ -55,7 +55,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     result.fold(
       (failure) => emit(AuthFailureState(failure: failure)),
-      (unit) => emit(AuthSuccessState()),
+      (unit) => emit(LogoutSuccessState()),
     );
   }
 }

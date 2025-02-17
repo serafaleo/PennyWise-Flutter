@@ -3,9 +3,13 @@ import 'dart:convert';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:pennywise/core/constants/secure_storage_constants.dart';
 import 'package:pennywise/core/service_locator.dart';
+import 'package:pennywise/core/utils/extension_methods/string_extensions.dart';
 import 'package:pennywise/features/auth/data/models/token_response_dto.dart';
 
 abstract interface class AuthSessionManager {
+  String? get userId;
+  String? get accessToken;
+  String? get refreshToken;
   Future<void> saveSession(TokenResponseDto tokenDto);
   Future<void> clearSession();
   Future<void> tryRestoreSession();
@@ -14,8 +18,11 @@ abstract interface class AuthSessionManager {
 final class AuthSessionManagerImpl implements AuthSessionManager {
   TokenResponseDto? _tokenDto;
 
+  @override
   String? get userId => _tokenDto?.userId;
+  @override
   String? get accessToken => _tokenDto?.accessToken;
+  @override
   String? get refreshToken => _tokenDto?.refreshToken;
 
   @override
@@ -38,8 +45,8 @@ final class AuthSessionManagerImpl implements AuthSessionManager {
     String? tokenDtoJsonString = await sl<FlutterSecureStorage>().read(
       key: SecureStorageConstants.authSession,
     );
-    if (tokenDtoJsonString != null && tokenDtoJsonString.isNotEmpty) {
-      _tokenDto = TokenResponseDto.fromJson(jsonDecode(tokenDtoJsonString));
+    if (tokenDtoJsonString.isNotNullOrEmpty()) {
+      _tokenDto = TokenResponseDto.fromJson(jsonDecode(tokenDtoJsonString!));
     }
   }
 }
