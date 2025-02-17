@@ -1,43 +1,21 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:pennywise/features/auth/presentation/enums/form_type_enum.dart';
-import 'package:pennywise/features/auth/presentation/widgets/auth_form.dart';
+import 'package:pennywise/core/utils/extension_methods/string_extensions.dart';
+import 'package:pennywise/core/widgets/loader_indicator.dart';
+import 'package:pennywise/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:pennywise/features/auth/presentation/widgets/auth_text_form_field.dart';
 
-class AuthPageLayout extends StatefulWidget {
-  final FormTypeEnum formType;
+class AuthPageLayout extends StatelessWidget {
+  final bool isLogin;
 
-  const AuthPageLayout({super.key, required this.formType});
+  AuthPageLayout({super.key, required this.isLogin});
 
-  @override
-  State<AuthPageLayout> createState() => _AuthPageLayoutState();
-}
-
-class _AuthPageLayoutState extends State<AuthPageLayout> {
-  late String _headerText;
-  late String _headerDescriptionText;
-  late String _footerText;
-  late String _footerClickableText;
-
-  @override
-  void initState() {
-    switch (widget.formType) {
-      case FormTypeEnum.login:
-        _headerText = "Login";
-        _headerDescriptionText = "Welcome back";
-        _footerText = "Don't have an account? ";
-        _footerClickableText = "Sign Up";
-        break;
-      case FormTypeEnum.signUp:
-        _headerText = "Sign Up";
-        _headerDescriptionText = "Create your account";
-        _footerText = "Already have an account? ";
-        _footerClickableText = "Login";
-        break;
-    }
-
-    super.initState();
-  }
+  final _formKey = GlobalKey<FormState>();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _passwordConfirmController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -57,23 +35,29 @@ class _AuthPageLayoutState extends State<AuthPageLayout> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: 80),
+            const SizedBox(height: 80),
             Padding(
-              padding: EdgeInsets.all(20),
+              padding: const EdgeInsets.all(20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(_headerText, style: Theme.of(context).textTheme.displayMedium),
-                  Text(_headerDescriptionText, style: Theme.of(context).textTheme.titleLarge),
+                  Text(
+                    isLogin ? 'Login' : 'Sign Up',
+                    style: Theme.of(context).textTheme.displayMedium,
+                  ),
+                  Text(
+                    isLogin ? 'Welcome back' : 'Create your account',
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
                 ],
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Expanded(
               child: Container(
                 decoration: BoxDecoration(
                   color: Theme.of(context).colorScheme.onPrimary,
-                  borderRadius: BorderRadius.only(
+                  borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(50),
                     topRight: Radius.circular(50),
                   ),
@@ -82,15 +66,124 @@ class _AuthPageLayoutState extends State<AuthPageLayout> {
                   padding: const EdgeInsets.only(left: 20, right: 20, top: 60),
                   child: Column(
                     children: [
-                      AuthForm(formType: widget.formType),
-                      SizedBox(height: 20),
+                      Form(
+                        key: _formKey,
+                        child: Column(
+                          children: [
+                            AuthTextFormField(
+                              isPassword: false,
+                              hintText: 'Enter your email',
+                              controller: _emailController,
+                              validator: (value) {
+                                if (value.isNullOrEmpty()) {
+                                  return 'Email must not be empty';
+                                }
+                                return null;
+                              },
+                            ),
+                            const SizedBox(height: 20),
+                            AuthTextFormField(
+                              isPassword: true,
+                              hintText: isLogin ? 'Enter your password' : 'Choose your password',
+                              controller: _passwordController,
+                              validator: (value) {
+                                if (value.isNullOrEmpty()) {
+                                  return 'Password must not be empty';
+                                }
+                                return null;
+                              },
+                            ),
+                            if (!isLogin) ...[
+                              const SizedBox(height: 20),
+                              AuthTextFormField(
+                                isPassword: true,
+                                hintText: 'Confirm your password',
+                                controller: _passwordConfirmController,
+                                validator: (value) {
+                                  if (value.isNullOrEmpty()) {
+                                    return 'Please, confirm your password';
+                                  }
+                                  if (_passwordController.text.isNotNullOrEmpty() &&
+                                      value != _passwordController.text) {
+                                    return 'Passwords are different';
+                                  }
+                                  return null;
+                                },
+                              ),
+                            ],
+                            const SizedBox(height: 60),
+                            SizedBox(
+                              width: 200,
+                              height: 60,
+                              child: BlocConsumer<AuthBloc, AuthState>(
+                                listener: (context, state) {
+                                  assert(
+                                    state is AuthFailureState ||
+                                        state is AuthLoadingState ||
+                                        state is LoginSuccessState ||
+                                        state is AuthInitialState,
+                                  );
+                                  if (state is AuthFailureState) {
+                                    state.failure.show(context);
+                                  } else if (state is LoginSuccessState) {
+                                    context.go('/');
+                                  }
+                                },
+                                builder: (context, state) {
+                                  return ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: Theme.of(
+                                        context,
+                                      ).colorScheme.primary.withAlpha(200),
+                                      elevation: 5,
+                                      shadowColor: Colors.black,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(20),
+                                      ),
+                                    ),
+                                    onPressed: () {
+                                      if (_formKey.currentState!.validate()) {
+                                        context.read<AuthBloc>().add(
+                                          isLogin
+                                              ? AuthLoginEvent(
+                                                email: _emailController.text.trim(),
+                                                password: _passwordController.text.trim(),
+                                              )
+                                              : AuthSignUpEvent(
+                                                email: _emailController.text.trim(),
+                                                password: _passwordController.text.trim(),
+                                                passwordConfirmation:
+                                                    _passwordConfirmController.text.trim(),
+                                              ),
+                                        );
+                                      }
+                                    },
+                                    child:
+                                        state is AuthLoadingState
+                                            ? const LoaderIndicator()
+                                            : Text(
+                                              isLogin ? 'Login' : 'Sign Up',
+                                              style: Theme.of(
+                                                context,
+                                              ).textTheme.headlineSmall!.copyWith(
+                                                color: Theme.of(context).colorScheme.onPrimary,
+                                              ),
+                                            ),
+                                  );
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 20),
                       RichText(
                         text: TextSpan(
-                          text: _footerText,
+                          text: isLogin ? "Don't have an account? " : 'Already have an account? ',
                           style: Theme.of(context).textTheme.titleMedium,
                           children: [
                             TextSpan(
-                              text: _footerClickableText,
+                              text: isLogin ? 'Sign Up' : 'Login',
                               style: Theme.of(context).textTheme.titleMedium!.copyWith(
                                 color: Theme.of(context).colorScheme.primary,
                                 fontWeight: FontWeight.bold,
@@ -98,7 +191,7 @@ class _AuthPageLayoutState extends State<AuthPageLayout> {
                               recognizer:
                                   TapGestureRecognizer()
                                     ..onTap = () {
-                                      if (widget.formType == FormTypeEnum.login) {
+                                      if (isLogin) {
                                         context.go('/signup');
                                       } else {
                                         context.go('/login');

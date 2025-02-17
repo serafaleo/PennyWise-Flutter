@@ -12,7 +12,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   setupServiceLocator();
   await sl<AuthSessionManager>().tryRestoreSession();
-  GoRouter router = RouterManager().createRouter();
+  GoRouter router = RouterManager().initRouter();
 
   runApp(
     MultiBlocProvider(

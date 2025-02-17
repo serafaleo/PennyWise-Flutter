@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:pennywise/features/auth/presentation/enums/form_type_enum.dart';
 import 'package:pennywise/features/auth/presentation/widgets/auth_page_layout.dart';
 
 class LoginPage extends StatelessWidget {
@@ -7,6 +6,6 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AuthPageLayout(formType: FormTypeEnum.login);
+    return AuthPageLayout(isLogin: true);
   }
 }

@@ -15,7 +15,7 @@ void setupServiceLocator() {
   sl.registerLazySingleton<DioClient>(() => DioClient());
 
   // MUST be before AuthSessionManager
-  sl.registerLazySingleton<FlutterSecureStorage>(() => FlutterSecureStorage());
+  sl.registerLazySingleton<FlutterSecureStorage>(() => const FlutterSecureStorage());
   sl.registerLazySingleton<AuthSessionManager>(() => AuthSessionManagerImpl());
 
   _setupAuth();

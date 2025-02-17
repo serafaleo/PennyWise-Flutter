@@ -30,10 +30,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         passwordConfirmation: event.passwordConfirmation,
       ),
     );
-
     result.fold(
       (failure) => emit(AuthFailureState(failure: failure)),
-      (unit) => emit(SignUpSuccessState()),
+      (unit) => emit(
+        LoginSuccessState(),
+      ), // NOTE(serafa.leo): If sign up succeeds, we login right away in the usecase;
     );
   }
 
@@ -42,7 +43,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     final result = await sl<LoginUseCase>().call(
       LoginRequestEntity(email: event.email, password: event.password),
     );
-
     result.fold(
       (failure) => emit(AuthFailureState(failure: failure)),
       (unit) => emit(LoginSuccessState()),
@@ -52,7 +52,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   FutureOr<void> _onAuthLogout(AuthLogoutEvent event, Emitter<AuthState> emit) async {
     emit(AuthLoadingState());
     final result = await sl<LogoutUseCase>().call(unit);
-
     result.fold(
       (failure) => emit(AuthFailureState(failure: failure)),
       (unit) => emit(LogoutSuccessState()),

@@ -1,1 +1,0 @@
-enum FormFieldTypeEnum { email, password }

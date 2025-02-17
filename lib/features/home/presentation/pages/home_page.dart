@@ -25,9 +25,9 @@ class _HomePageState extends State<HomePage> {
         },
         builder: (context, state) {
           if (state is HomeLoadingState) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           }
-          return Center(child: Text('Home'));
+          return const Center(child: Text('Home'));
         },
       ),
     );

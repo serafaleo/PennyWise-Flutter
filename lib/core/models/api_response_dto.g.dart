@@ -28,12 +28,8 @@ Map<String, dynamic> _$ApiResponseDtoToJson<T>(
   'errors': instance.errors,
 };
 
-T? _$nullableGenericFromJson<T>(
-  Object? input,
-  T Function(Object? json) fromJson,
-) => input == null ? null : fromJson(input);
+T? _$nullableGenericFromJson<T>(Object? input, T Function(Object? json) fromJson) =>
+    input == null ? null : fromJson(input);
 
-Object? _$nullableGenericToJson<T>(
-  T? input,
-  Object? Function(T value) toJson,
-) => input == null ? null : toJson(input);
+Object? _$nullableGenericToJson<T>(T? input, Object? Function(T value) toJson) =>
+    input == null ? null : toJson(input);

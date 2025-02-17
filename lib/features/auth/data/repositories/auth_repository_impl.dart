@@ -21,7 +21,7 @@ final class AuthRepositoryImpl implements AuthRepository {
       );
       if (apiResponse.success) {
         sl<AuthSessionManager>().saveSession(apiResponse.data!);
-        return Right(unit);
+        return const Right(unit);
       }
       return Left(Failure(apiResponse.message!));
     } catch (e) {
@@ -40,7 +40,7 @@ final class AuthRepositoryImpl implements AuthRepository {
         SignUpRequestDto.fromDomain(signUpEntity),
       );
       if (apiResponse.success) {
-        return Right(unit);
+        return const Right(unit);
       }
       return Left(Failure(apiResponse.message!));
     } catch (e) {
@@ -58,7 +58,7 @@ final class AuthRepositoryImpl implements AuthRepository {
       ApiResponseDto<void> apiResponse = await sl<AuthApiDataSource>().logout();
       if (apiResponse.success) {
         sl<AuthSessionManager>().clearSession();
-        return Right(unit);
+        return const Right(unit);
       }
       return Left(Failure(apiResponse.message!));
     } catch (e) {

@@ -6,8 +6,10 @@ import 'package:pennywise/features/auth/presentation/pages/login_page.dart';
 import 'package:pennywise/features/auth/presentation/pages/signup_page.dart';
 import 'package:pennywise/features/home/presentation/pages/home_page.dart';
 
+// TODO(serfa.leo): In case we need to inject this manager, create an interface for it, and move it to the sevices folder.
+
 final class RouterManager {
-  GoRouter createRouter() {
+  GoRouter initRouter() {
     String? initialLocation;
     if (sl<AuthSessionManager>().accessToken.isNullOrEmpty()) {
       initialLocation = '/login';
