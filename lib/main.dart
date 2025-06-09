@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:pennywise/core/managers/router_manager.dart';
 import 'package:pennywise/core/service_locator.dart';
 
@@ -15,6 +16,17 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(title: 'PennyWise', routerConfig: sl<RouterManager>().router);
+    const ptBR = Locale('pt', 'BR');
+    return MaterialApp.router(
+      title: 'PennyWise',
+      routerConfig: sl<RouterManager>().router,
+      locale: ptBR,
+      supportedLocales: const [ptBR],
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+    );
   }
 }

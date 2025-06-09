@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:pennywise/core/helpers/extension_methods/datetime_extensions.dart';
+import 'package:pennywise/core/helpers/extension_methods/string_extensions.dart';
 
 class MonthSelector extends StatefulWidget {
   final void Function(DateTime) onMonthChanged;
@@ -23,13 +24,14 @@ class _MonthSelectorState extends State<MonthSelector> {
 
   @override
   Widget build(BuildContext context) {
-    final String monthName = DateFormat('MMMM yyyy').format(_currentDate);
+    final locale = Localizations.localeOf(context).toString();
+    final String dateText = DateFormat('MMMM yyyy', locale).format(_currentDate).toTitleCase();
     return Padding(
       padding: const EdgeInsets.only(left: 90.0, right: 90.0),
       child: Row(
         children: [
           IconButton(icon: const Icon(Icons.chevron_left), onPressed: () => _changeMonth(-1)),
-          Expanded(child: Center(child: Text(monthName))),
+          Expanded(child: Center(child: Text(dateText))),
           IconButton(icon: const Icon(Icons.chevron_right), onPressed: () => _changeMonth(1)),
         ],
       ),
