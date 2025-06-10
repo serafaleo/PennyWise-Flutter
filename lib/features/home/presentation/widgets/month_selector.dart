@@ -26,15 +26,16 @@ class _MonthSelectorState extends State<MonthSelector> {
   Widget build(BuildContext context) {
     final locale = Localizations.localeOf(context).toString();
     final String dateText = DateFormat('MMMM yyyy', locale).format(_currentDate).toTitleCase();
-    return Padding(
-      padding: const EdgeInsets.only(left: 90.0, right: 90.0),
-      child: Row(
-        children: [
-          IconButton(icon: const Icon(Icons.chevron_left), onPressed: () => _changeMonth(-1)),
-          Expanded(child: Center(child: Text(dateText))),
-          IconButton(icon: const Icon(Icons.chevron_right), onPressed: () => _changeMonth(1)),
-        ],
-      ),
+    return Row(
+      children: [
+        IconButton(icon: const Icon(Icons.chevron_left), onPressed: () => _changeMonth(-1)),
+        Expanded(
+          child: Center(
+            child: Text(dateText, style: Theme.of(context).textTheme.titleMedium!.copyWith(fontWeight: FontWeight.bold)),
+          ),
+        ),
+        IconButton(icon: const Icon(Icons.chevron_right), onPressed: () => _changeMonth(1)),
+      ],
     );
   }
 }
