@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:pennywise/core/helpers/extension_methods/datetime_extensions.dart';
+import 'package:pennywise/features/home/domain/entities/transaction.dart';
 import 'package:pennywise/features/home/presentation/widgets/add_transaction_button.dart';
 import 'package:pennywise/features/home/presentation/widgets/balance_card.dart';
 import 'package:pennywise/features/home/presentation/widgets/month_indicator.dart';
+import 'package:pennywise/features/home/presentation/widgets/transaction_list.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -15,6 +17,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   late final PageController _pageController;
   late DateTime _currentDate;
   late int _lastPageIndex;
+
+  // final _transactions = [Transaction(categoryName: 'Mercado', value: -50, date: DateTime.now())];
+  final List<Transaction> _transactions = [];
 
   @override
   void initState() {
@@ -50,6 +55,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 const BalanceCard(),
                 const SizedBox(height: 10),
                 AddTransactionButton(onPressed: () {}),
+                TransactionList(transactions: _transactions),
               ],
             ),
           );
