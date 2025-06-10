@@ -10,10 +10,10 @@ class MonthIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const duration = Duration(milliseconds: 200);
-    const curve = Curves.easeInOut;
+    const Duration duration = Duration(milliseconds: 200);
+    const Cubic curve = Curves.easeInOut;
     return Row(
-      children: [
+      children: <Widget>[
         IconButton(
           icon: const Icon(Icons.chevron_left),
           onPressed: () {

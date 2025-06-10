@@ -13,7 +13,7 @@ class TransactionList extends StatelessWidget {
       child: transactions.isEmpty
           ? Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: [
+              children: <Widget>[
                 Icon(Icons.price_check, size: 75, color: Theme.of(context).colorScheme.primary),
                 Text(
                   'Nenhuma transação até o momento!',
@@ -25,8 +25,8 @@ class TransactionList extends StatelessWidget {
           : Expanded(
               child: ListView.builder(
                 itemCount: transactions.length,
-                itemBuilder: (context, index) {
-                  final transaction = transactions[index];
+                itemBuilder: (BuildContext context, int index) {
+                  final Transaction transaction = transactions[index];
                   return TransactionListItem(transaction: transaction);
                 },
               ),

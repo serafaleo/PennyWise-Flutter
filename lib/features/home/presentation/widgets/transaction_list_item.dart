@@ -12,7 +12,7 @@ class TransactionListItem extends StatelessWidget {
       leading: const Icon(Icons.local_grocery_store),
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [Text(transaction.categoryName), Text(transaction.value.toString())],
+        children: <Widget>[Text(transaction.categoryName), Text(transaction.value.toString())],
       ),
       subtitle: Text(transaction.date.toString()),
     );

@@ -6,6 +6,7 @@ analyzer:
 
 formatter:
   page_width: 140
+  trailing_commas: preserve
 
 linter:
   rules:
@@ -13,3 +14,8 @@ linter:
     - prefer_const_literals_to_create_immutables
     - prefer_const_declarations
     - prefer_single_quotes
+    - always_declare_return_types
+    - always_specify_types
+    - prefer_is_empty
+    - prefer_is_not_empty
+    - prefer_final_locals

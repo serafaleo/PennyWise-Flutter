@@ -17,7 +17,7 @@ class AddTransactionButton extends StatelessWidget {
         padding: const EdgeInsets.all(12),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [
+          children: <Widget>[
             const Icon(Icons.add),
             Text(
               'Adicionar Transação',

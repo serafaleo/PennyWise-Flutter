@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pennywise/core/constants/routes.dart';
 import 'package:pennywise/core/helpers/extension_methods/string_extensions.dart';
@@ -24,8 +25,8 @@ final class RouterManagerImpl implements RouterManager {
     }
     _router = GoRouter(
       initialLocation: initialLocation,
-      routes: [
-        GoRoute(path: Routes.home, builder: (context, state) => const HomePage()),
+      routes: <RouteBase>[
+        GoRoute(path: Routes.home, builder: (BuildContext context, GoRouterState state) => const HomePage()),
         //GoRoute(path: Routes.home, builder: (context, state) => const HomePage()),
       ],
     );

@@ -19,7 +19,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   late int _lastPageIndex;
 
   // final _transactions = [Transaction(categoryName: 'Mercado', value: -50, date: DateTime.now())];
-  final List<Transaction> _transactions = [];
+  final List<Transaction> _transactions = <Transaction>[];
 
   @override
   void initState() {
@@ -45,12 +45,12 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         reverse: true,
         controller: _pageController,
         onPageChanged: _onPageChanged,
-        itemBuilder: (context, index) {
+        itemBuilder: (BuildContext context, int index) {
           //print(index);
           return Padding(
             padding: const EdgeInsets.only(left: marginSize, right: marginSize),
             child: Column(
-              children: [
+              children: <Widget>[
                 MonthIndicator(pageController: _pageController, date: _currentDate),
                 const BalanceCard(),
                 const SizedBox(height: 10),
@@ -64,7 +64,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     );
   }
 
-  _onPageChanged(int newPageIndex) {
+  void _onPageChanged(int newPageIndex) {
     setState(() {
       // the higher the index, the older the date
       if (newPageIndex > _lastPageIndex) {

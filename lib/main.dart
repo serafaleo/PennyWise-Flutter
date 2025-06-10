@@ -17,7 +17,7 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const ptBR = Locale('pt', 'BR');
+    const Locale ptBR = Locale('pt', 'BR');
     return MaterialApp.router(
       title: 'PennyWise',
       theme: buildTheme(Brightness.light),
@@ -25,8 +25,8 @@ class MainApp extends StatelessWidget {
       themeMode: ThemeMode.system,
       routerConfig: sl<RouterManager>().router,
       locale: ptBR,
-      supportedLocales: const [ptBR],
-      localizationsDelegates: const [
+      supportedLocales: const <Locale>[ptBR],
+      localizationsDelegates: const <LocalizationsDelegate>[
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,

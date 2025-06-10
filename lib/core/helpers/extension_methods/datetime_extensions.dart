@@ -11,7 +11,7 @@ extension DateTimeExtensions on DateTime {
   }
 
   static int _lastDayOfMonth(int year, int month) {
-    final beginningOfNextMonth = (month == 12) ? DateTime(year + 1, 1) : DateTime(year, month + 1);
+    final DateTime beginningOfNextMonth = (month == 12) ? DateTime(year + 1, 1) : DateTime(year, month + 1);
     return beginningOfNextMonth.subtract(const Duration(days: 1)).day;
   }
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-ThemeData buildTheme(brightness) {
+ThemeData buildTheme(Brightness brightness) {
   ThemeData baseTheme = ThemeData(
     brightness: brightness,
     useMaterial3: true,
