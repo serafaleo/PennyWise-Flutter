@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pennywise/core/helpers/extension_methods/datetime_extensions.dart';
+import 'package:pennywise/core/widgets/drawer.dart';
 import 'package:pennywise/features/home/domain/entities/transaction.dart';
 import 'package:pennywise/features/home/presentation/widgets/add_transaction_button.dart';
 import 'package:pennywise/features/home/presentation/widgets/balance_card.dart';
@@ -40,7 +41,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     const double marginSize = 32.0;
     return Scaffold(
       appBar: AppBar(title: const Text('Transações'), centerTitle: true),
-      drawer: const Drawer(),
+      drawer: const PennyWiseDrawer(),
       body: PageView.builder(
         reverse: true,
         controller: _pageController,

@@ -4,8 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pennywise/core/constants/routes.dart';
 import 'package:pennywise/core/widgets/loader_indicator.dart';
-import 'package:pennywise/features/auth/domain/entities/login_request_entity.dart';
 import 'package:pennywise/features/auth/domain/entities/signup_request_entity.dart';
+import 'package:pennywise/features/auth/domain/entities/login_request_entity.dart';
 import 'package:pennywise/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:pennywise/features/auth/presentation/widgets/auth_text_form_field.dart';
 
@@ -121,7 +121,7 @@ class _AuthPageLayoutState extends State<AuthPageLayout> {
                           decoration: InputDecoration(
                             filled: true,
                             fillColor: Theme.of(context).colorScheme.primary.withAlpha(50),
-                            hintText: 'Enter your name',
+                            hintText: 'Digite seu nome',
                             prefixIcon: Icon(Icons.person, color: Colors.grey[600]),
                             border: OutlineInputBorder(borderRadius: BorderRadius.circular(20)),
                             contentPadding: const EdgeInsets.symmetric(vertical: 18),
@@ -132,7 +132,7 @@ class _AuthPageLayoutState extends State<AuthPageLayout> {
                       AuthTextFormField(
                         focusNode: _emailFocusNode,
                         isPassword: false,
-                        hintText: 'Enter your email',
+                        hintText: 'Digite seu email',
                         controller: _emailController,
                         validator: widget.isLogin ? LoginRequestEntityValidator.validateEmail : SignUpRequestEntityValidator.validateEmail,
                       ),
@@ -140,7 +140,7 @@ class _AuthPageLayoutState extends State<AuthPageLayout> {
                       AuthTextFormField(
                         focusNode: _passwordFocusNode,
                         isPassword: true,
-                        hintText: widget.isLogin ? 'Enter your password' : 'Choose your password',
+                        hintText: widget.isLogin ? 'Digite sua senha' : 'Escolha uma senha',
                         controller: _passwordController,
                         validator: widget.isLogin
                             ? LoginRequestEntityValidator.validatePassword
@@ -151,7 +151,7 @@ class _AuthPageLayoutState extends State<AuthPageLayout> {
                         AuthTextFormField(
                           focusNode: _passwordConfirmFocusNode,
                           isPassword: true,
-                          hintText: 'Confirm your password',
+                          hintText: 'Confirme a senha escolhida',
                           controller: _passwordConfirmController,
                           validator: (String? value) => SignUpRequestEntityValidator.validatePasswordConfirm(
                             value,
@@ -193,7 +193,7 @@ class _AuthPageLayoutState extends State<AuthPageLayout> {
                               child: state is AuthLoadingState
                                   ? const LoaderIndicator(color: Colors.white)
                                   : Text(
-                                      widget.isLogin ? 'Login' : 'Sign Up',
+                                      widget.isLogin ? 'Entrar' : 'Cadastrar',
                                       style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                                         color: Theme.of(context).colorScheme.onPrimary,
                                       ),
@@ -208,11 +208,11 @@ class _AuthPageLayoutState extends State<AuthPageLayout> {
                 const SizedBox(height: 20),
                 RichText(
                   text: TextSpan(
-                    text: widget.isLogin ? "Don't have an account? " : 'Already have an account? ',
+                    text: widget.isLogin ? 'Não tem uma conta ainda? ' : 'Já tem uma conta? ',
                     style: Theme.of(context).textTheme.titleMedium,
                     children: <InlineSpan>[
                       TextSpan(
-                        text: widget.isLogin ? 'Sign Up' : 'Login',
+                        text: widget.isLogin ? 'Cadastre-se' : 'Entre',
                         style: Theme.of(context).textTheme.titleMedium!.copyWith(
                           color: Theme.of(context).colorScheme.primary,
                           fontWeight: FontWeight.bold,

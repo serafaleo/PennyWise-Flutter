@@ -1,40 +1,16 @@
 import 'package:pennywise/core/helpers/extension_methods/string_extensions.dart';
 
-class SignupRequestEntity {
-  final String name;
+class LoginRequestEntity {
   final String email;
   final String password;
-  final String passwordConfirmation;
 
-  SignupRequestEntity({
-    required this.name,
-    required this.email,
-    required this.password,
-    required this.passwordConfirmation,
-  });
+  LoginRequestEntity({required this.email, required this.password});
 }
 
-final class SignUpRequestEntityValidator {
-  static String? validateName(String? name) {
-    if (name.isNullOrEmpty()) {
-      return 'Name is required';
-    }
-    if (name!.length > 50) {
-      return 'Name must be up to 50 characters long.';
-    }
-    return null;
-  }
-
+final class LoginRequestEntityValidator {
   static String? validateEmail(String? email) {
     if (email.isNullOrEmpty()) {
       return 'Email is required';
-    }
-    if (email!.length > 100) {
-      return 'Email must contains up to 100 characters';
-    }
-    final RegExp emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
-    if (!emailRegex.hasMatch(email)) {
-      return 'Enter a valid email address';
     }
     return null;
   }
@@ -42,31 +18,6 @@ final class SignUpRequestEntityValidator {
   static String? validatePassword(String? password) {
     if (password.isNullOrEmpty()) {
       return 'Password is required';
-    }
-    if (password!.length < 8) {
-      return 'Password must be at least 8 characters long';
-    }
-    if (!RegExp(r'[A-Z]+').hasMatch(password)) {
-      return 'Password must have at least one upper case letter';
-    }
-    if (!RegExp(r'[a-z]+').hasMatch(password)) {
-      return 'Password must have at least one lower case letter';
-    }
-    if (!RegExp(r'[0-9]+').hasMatch(password)) {
-      return 'Password must have at least one digit';
-    }
-    if (!RegExp(r'[^a-zA-Z0-9]').hasMatch(password)) {
-      return 'Password must have at least one special character';
-    }
-    return null;
-  }
-
-  static String? validatePasswordConfirm(String? passwordConfirmation, String? password) {
-    if (passwordConfirmation.isNullOrEmpty()) {
-      return 'You must confirm your password';
-    }
-    if (password.isNotNullOrEmpty() && passwordConfirmation != password) {
-      return 'Passwords must be equal';
     }
     return null;
   }

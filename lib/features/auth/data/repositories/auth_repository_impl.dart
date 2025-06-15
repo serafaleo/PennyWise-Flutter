@@ -7,8 +7,8 @@ import 'package:pennywise/features/auth/data/datasources/auth_api_datasource.dar
 import 'package:pennywise/features/auth/data/models/login_request_dto.dart';
 import 'package:pennywise/features/auth/data/models/login_response_dto.dart';
 import 'package:pennywise/features/auth/data/models/signup_request_dto.dart';
-import 'package:pennywise/features/auth/domain/entities/login_request_entity.dart';
 import 'package:pennywise/features/auth/domain/entities/signup_request_entity.dart';
+import 'package:pennywise/features/auth/domain/entities/login_request_entity.dart';
 import 'package:pennywise/features/auth/domain/repositories/auth_repository.dart';
 
 final class AuthRepositoryImpl implements AuthRepository {

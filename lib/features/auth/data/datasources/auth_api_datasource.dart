@@ -17,11 +17,11 @@ abstract interface class AuthApiDataSource {
 final class AuthApiDataSourceImpl implements AuthApiDataSource {
   @override
   Future<LoginResponseDto> login(LoginRequestDto loginDto) async {
-    final Response response = await sl<DioManager>().post(
+    final Response<Object> response = await sl<DioManager>().post(
       AuthApiEndpoints.loginUrl,
       data: loginDto.toJson(),
     );
-    return LoginResponseDto.fromJson(response.data);
+    return LoginResponseDto.fromJson(response.data as Map<String, dynamic>);
   }
 
   @override

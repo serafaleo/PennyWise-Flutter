@@ -1,5 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:pennywise/features/auth/domain/entities/signup_request_entity.dart';
+import 'package:pennywise/features/auth/domain/entities/login_request_entity.dart';
 
 part 'login_request_dto.g.dart';
 

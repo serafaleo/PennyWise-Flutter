@@ -11,35 +11,35 @@ abstract interface class AuthManager {
   String? get userId;
   String? get accessToken;
   String? get refreshToken;
-  Future<void> saveSession(LoginResponseDto tokenDto);
+  Future<void> saveSession(LoginResponseDto loginResponseDto);
   Future<void> clearSession();
   Future<void> tryRestoreSession();
 }
 
 final class AuthManagerImpl implements AuthManager {
-  LoginResponseDto? _tokenDto;
+  LoginResponseDto? _loginResponseDto;
 
   @override
-  String? get userName => _tokenDto?.userName;
+  String? get userName => _loginResponseDto?.userName;
   @override
-  String? get userId => _tokenDto?.userId;
+  String? get userId => _loginResponseDto?.userId;
   @override
-  String? get accessToken => _tokenDto?.accessToken;
+  String? get accessToken => _loginResponseDto?.accessToken;
   @override
-  String? get refreshToken => _tokenDto?.refreshToken;
+  String? get refreshToken => _loginResponseDto?.refreshToken;
 
   @override
-  Future<void> saveSession(LoginResponseDto tokenDto) async {
-    _tokenDto = tokenDto;
+  Future<void> saveSession(LoginResponseDto loginResponseDto) async {
+    _loginResponseDto = loginResponseDto;
     await sl<FlutterSecureStorage>().write(
       key: SecureStorageConstants.authSession,
-      value: jsonEncode(tokenDto.toJson()),
+      value: jsonEncode(loginResponseDto.toJson()),
     );
   }
 
   @override
   Future<void> clearSession() async {
-    _tokenDto = null;
+    _loginResponseDto = null;
     await sl<FlutterSecureStorage>().delete(key: SecureStorageConstants.authSession);
   }
 
@@ -49,7 +49,7 @@ final class AuthManagerImpl implements AuthManager {
       key: SecureStorageConstants.authSession,
     );
     if (tokenDtoJsonString.isNotNullOrEmpty()) {
-      _tokenDto = LoginResponseDto.fromJson(jsonDecode(tokenDtoJsonString!));
+      _loginResponseDto = LoginResponseDto.fromJson(jsonDecode(tokenDtoJsonString!));
     }
   }
 }

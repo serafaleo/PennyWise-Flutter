@@ -19,8 +19,9 @@ final class DioManagerImpl implements DioManager {
             baseUrl: Endpoints.baseUrl,
             headers: <String, dynamic>{'Content-Type': 'application/json; charset=UTF-8'},
             responseType: ResponseType.json,
-            sendTimeout: kDebugMode ? null : const Duration(seconds: 10),
-            receiveTimeout: kDebugMode ? null : const Duration(seconds: 10),
+            sendTimeout: const Duration(seconds: 10),
+            receiveTimeout: const Duration(seconds: 10),
+            connectTimeout: const Duration(seconds: 10),
           ),
         )
         ..interceptors.addAll(<Interceptor>[AuthInterceptor(), ProblemDetailsInterceptor()])
