@@ -7,8 +7,8 @@ import 'package:pennywise/features/auth/data/datasources/auth_api_datasource.dar
 import 'package:pennywise/features/auth/data/models/login_request_dto.dart';
 import 'package:pennywise/features/auth/data/models/login_response_dto.dart';
 import 'package:pennywise/features/auth/data/models/signup_request_dto.dart';
-import 'package:pennywise/features/auth/domain/entities/signup_request_entity.dart';
 import 'package:pennywise/features/auth/domain/entities/login_request_entity.dart';
+import 'package:pennywise/features/auth/domain/entities/signup_request_entity.dart';
 import 'package:pennywise/features/auth/domain/repositories/auth_repository.dart';
 
 final class AuthRepositoryImpl implements AuthRepository {
@@ -19,9 +19,9 @@ final class AuthRepositoryImpl implements AuthRepository {
         LoginRequestDto.fromDomain(loginEntity),
       );
       sl<AuthManager>().saveSession(token);
-      return const Right(unit);
+      return const Right<Failure, Unit>(unit);
     } on DioException catch (e) {
-      return Left(e.response!.data as Failure);
+      return Left<Failure, Unit>(e.response!.data as Failure);
     }
   }
 
@@ -29,9 +29,9 @@ final class AuthRepositoryImpl implements AuthRepository {
   Future<Either<Failure, Unit>> signUp(SignupRequestEntity signUpEntity) async {
     try {
       await sl<AuthApiDataSource>().signUp(SignUpRequestDto.fromDomain(signUpEntity));
-      return const Right(unit);
+      return const Right<Failure, Unit>(unit);
     } on DioException catch (e) {
-      return Left(e.response!.data as Failure);
+      return Left<Failure, Unit>(e.response!.data as Failure);
     }
   }
 
@@ -40,9 +40,9 @@ final class AuthRepositoryImpl implements AuthRepository {
     try {
       await sl<AuthApiDataSource>().logout();
       sl<AuthManager>().clearSession();
-      return const Right(unit);
+      return const Right<Failure, Unit>(unit);
     } on DioException catch (e) {
-      return Left(e.response!.data as Failure);
+      return Left<Failure, Unit>(e.response!.data as Failure);
     }
   }
 }
