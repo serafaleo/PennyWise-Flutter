@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pennywise/core/constants/routes.dart';
 import 'package:pennywise/core/helpers/extension_methods/string_extensions.dart';
 import 'package:pennywise/core/managers/auth_manager.dart';
 import 'package:pennywise/core/service_locator.dart';
+import 'package:pennywise/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:pennywise/features/auth/presentation/pages/login_page.dart';
+import 'package:pennywise/features/auth/presentation/pages/signup_page.dart';
 import 'package:pennywise/features/home/presentation/pages/home_page.dart';
 
 abstract interface class RouterManager {
   GoRouter get router;
   void initRouter();
+  void goNamed(String location, {Map<String, String> pathParameters = const <String, String>{}});
 }
 
 final class RouterManagerImpl implements RouterManager {
@@ -27,8 +32,29 @@ final class RouterManagerImpl implements RouterManager {
       initialLocation: initialLocation,
       routes: <RouteBase>[
         GoRoute(path: Routes.home, builder: (BuildContext context, GoRouterState state) => const HomePage()),
-        //GoRoute(path: Routes.home, builder: (context, state) => const HomePage()),
+        GoRoute(
+          path: Routes.login,
+          builder: (BuildContext context, GoRouterState state) {
+            final bool showSessionExpiredWarning = bool.parse(
+              state.pathParameters[Routes.loginPageShowSessionExpiredWarning] ?? 'false',
+            );
+            return BlocProvider<AuthBloc>(
+              create: (_) => AuthBloc(),
+              child: LoginPage(showSessionExpiredWarning: showSessionExpiredWarning),
+            );
+          },
+        ),
+        GoRoute(
+          path: Routes.signUp,
+          builder: (BuildContext context, GoRouterState state) =>
+              BlocProvider<AuthBloc>(create: (_) => AuthBloc(), child: const SignUpPage()),
+        ),
       ],
     );
+  }
+
+  @override
+  void goNamed(String location, {Map<String, String> pathParameters = const <String, String>{}}) {
+    _router.goNamed(location, pathParameters: pathParameters);
   }
 }

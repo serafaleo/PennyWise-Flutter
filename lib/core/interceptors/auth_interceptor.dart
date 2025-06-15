@@ -1,0 +1,46 @@
+import 'package:dio/dio.dart';
+import 'package:pennywise/core/constants/routes.dart';
+import 'package:pennywise/core/helpers/extension_methods/string_extensions.dart';
+import 'package:pennywise/core/managers/auth_manager.dart';
+import 'package:pennywise/core/managers/dio_manager.dart';
+import 'package:pennywise/core/managers/router_manager.dart';
+import 'package:pennywise/core/service_locator.dart';
+import 'package:pennywise/features/auth/data/datasources/auth_api_datasource.dart';
+import 'package:pennywise/features/auth/data/models/login_response_dto.dart';
+import 'package:pennywise/features/auth/data/models/refresh_request_dto.dart';
+
+final class AuthInterceptor extends Interceptor {
+  @override
+  void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
+    final String? accessToken = sl<AuthManager>().accessToken;
+    if (accessToken.isNotNullOrEmpty()) {
+      options.headers['Authorization'] = 'Bearer $accessToken';
+    }
+    super.onRequest(options, handler);
+  }
+
+  @override
+  void onError(DioException err, ErrorInterceptorHandler handler) async {
+    if (err.response!.statusCode == 401 && sl<AuthManager>().userId.isNotNullOrEmpty()) {
+      try {
+        final LoginResponseDto newToken = await sl<AuthApiDataSource>().refresh(
+          RefreshRequestDto(
+            userId: sl<AuthManager>().userId!,
+            refreshToken: sl<AuthManager>().refreshToken!,
+          ),
+        );
+        sl<AuthManager>().saveSession(newToken);
+        err.response!.requestOptions.headers['Authorization'] = 'Bearer ${newToken.accessToken}';
+        final Response<Object> cloneRequest = await sl<DioManager>().request(err.response!.requestOptions.path);
+        return handler.resolve(cloneRequest);
+      } catch (e) {
+        sl<AuthManager>().clearSession();
+        sl<RouterManager>().goNamed(
+          Routes.login,
+          pathParameters: <String, String>{Routes.loginPageShowSessionExpiredWarning: true.toString()},
+        );
+      }
+    }
+    super.onError(err, handler);
+  }
+}
