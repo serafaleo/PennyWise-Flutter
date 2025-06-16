@@ -16,12 +16,12 @@ final class AuthInterceptor extends Interceptor {
     if (accessToken.isNotNullOrEmpty()) {
       options.headers['Authorization'] = 'Bearer $accessToken';
     }
-    super.onRequest(options, handler);
+    handler.next(options);
   }
 
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) async {
-    if (err.response!.statusCode == 401 && sl<AuthManager>().userId.isNotNullOrEmpty()) {
+    if (err.response?.statusCode == 401 && sl<AuthManager>().userId.isNotNullOrEmpty()) {
       try {
         final LoginResponseDto newToken = await sl<AuthApiDataSource>().refresh(
           RefreshRequestDto(
@@ -41,6 +41,6 @@ final class AuthInterceptor extends Interceptor {
         );
       }
     }
-    super.onError(err, handler);
+    handler.next(err);
   }
 }

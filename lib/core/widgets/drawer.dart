@@ -31,6 +31,7 @@ class PennyWiseDrawer extends StatelessWidget {
                   child: BlocConsumer<AuthBloc, AuthState>(
                     listener: (BuildContext context, Object? state) {
                       if (state is AuthFailureState) {
+                        Navigator.of(context).pop();
                         state.failure.show(context);
                       } else if (state is LogoutSuccessState) {
                         context.go(Routes.login);
@@ -43,7 +44,15 @@ class PennyWiseDrawer extends StatelessWidget {
                             context.read<AuthBloc>().add(AuthLogoutEvent());
                           }
                         },
-                        icon: Icon(Icons.logout, color: Theme.of(context).colorScheme.onPrimary),
+                        icon: state is AuthLoadingState
+                            ? const SizedBox(
+                                width: 20,
+                                height: 20,
+                                child: CircularProgressIndicator(
+                                  color: Colors.white,
+                                ),
+                              )
+                            : Icon(Icons.logout, color: Theme.of(context).colorScheme.onPrimary),
                       );
                     },
                   ),
@@ -74,8 +83,8 @@ class PennyWiseDrawer extends StatelessWidget {
           title: const Text('Sair'),
           content: const Text('Deseja sair da sessão atual?'),
           actions: <Widget>[
-            TextButton(onPressed: () => Navigator.of(context).pop(true), child: const Text('Yes')),
-            TextButton(onPressed: () => Navigator.of(context).pop(false), child: const Text('No')),
+            TextButton(onPressed: () => Navigator.of(context).pop(true), child: const Text('Sim')),
+            TextButton(onPressed: () => Navigator.of(context).pop(false), child: const Text('Não')),
           ],
         );
       },

@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:pennywise/core/constants/endpoints.dart';
 import 'package:pennywise/core/interceptors/auth_interceptor.dart';
 import 'package:pennywise/core/interceptors/problem_details_interceptor.dart';
+import 'package:pennywise/core/interceptors/timeout_interceptor.dart';
 
 abstract interface class DioManager {
   Future<Response<Object>> post(String url, {Object? data});
@@ -24,7 +25,7 @@ final class DioManagerImpl implements DioManager {
             connectTimeout: const Duration(seconds: 10),
           ),
         )
-        ..interceptors.addAll(<Interceptor>[AuthInterceptor(), ProblemDetailsInterceptor()])
+        ..interceptors.addAll(<Interceptor>[TimeoutInterceptor(), AuthInterceptor(), ProblemDetailsInterceptor()])
         ..httpClientAdapter = IOHttpClientAdapter(
           createHttpClient: () {
             final HttpClient client = HttpClient(context: SecurityContext(withTrustedRoots: false));

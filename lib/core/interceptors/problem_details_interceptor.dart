@@ -17,7 +17,7 @@ final class ProblemDetailsInterceptor extends Interceptor {
         err.response!.data = Failure();
       }
     } finally {
-      super.onError(err, handler);
+      handler.next(err);
     }
   }
 }
