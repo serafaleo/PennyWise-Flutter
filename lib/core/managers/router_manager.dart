@@ -13,7 +13,7 @@ import 'package:pennywise/features/home/presentation/pages/home_page.dart';
 abstract interface class RouterManager {
   GoRouter get router;
   void initRouter();
-  void goNamed(String location, {Map<String, String> pathParameters = const <String, String>{}});
+  void go(String location, {Object? extra});
 }
 
 final class RouterManagerImpl implements RouterManager {
@@ -35,9 +35,7 @@ final class RouterManagerImpl implements RouterManager {
         GoRoute(
           path: Routes.login,
           builder: (BuildContext context, GoRouterState state) {
-            final bool showSessionExpiredWarning = bool.parse(
-              state.pathParameters[Routes.loginPageShowSessionExpiredWarning] ?? 'false',
-            );
+            final bool showSessionExpiredWarning = state.extra == null ? false : state.extra as bool;
             return BlocProvider<AuthBloc>(
               create: (_) => AuthBloc(),
               child: LoginPage(showSessionExpiredWarning: showSessionExpiredWarning),
@@ -54,7 +52,7 @@ final class RouterManagerImpl implements RouterManager {
   }
 
   @override
-  void goNamed(String location, {Map<String, String> pathParameters = const <String, String>{}}) {
-    _router.goNamed(location, pathParameters: pathParameters);
+  void go(String location, {Object? extra}) {
+    _router.go(location, extra: extra);
   }
 }

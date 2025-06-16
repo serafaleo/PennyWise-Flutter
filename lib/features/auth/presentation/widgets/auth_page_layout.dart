@@ -4,10 +4,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pennywise/core/constants/routes.dart';
 import 'package:pennywise/core/widgets/loader_indicator.dart';
-import 'package:pennywise/features/auth/domain/entities/signup_request_entity.dart';
 import 'package:pennywise/features/auth/domain/entities/login_request_entity.dart';
+import 'package:pennywise/features/auth/domain/entities/signup_request_entity.dart';
 import 'package:pennywise/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:pennywise/features/auth/presentation/widgets/auth_text_form_field.dart';
+import 'package:pennywise/l10n/app_localizations.dart';
 
 class AuthPageLayout extends StatefulWidget {
   final bool isLogin;
@@ -72,11 +73,11 @@ class _AuthPageLayoutState extends State<AuthPageLayout> {
           children: <Widget>[
             const SizedBox(height: 80),
             Text(
-              widget.isLogin ? 'Entrar' : 'Cadastre-se',
+              widget.isLogin ? AppLocalizations.of(context)!.loginPageTitle : AppLocalizations.of(context)!.signUpPageTitle,
               style: Theme.of(context).textTheme.displayMedium,
             ),
             Text(
-              widget.isLogin ? 'Bem vindo de volta' : 'Crie sua conta',
+              widget.isLogin ? AppLocalizations.of(context)!.loginPageSubtitle : AppLocalizations.of(context)!.signUpPageSubtitle,
               style: Theme.of(context).textTheme.titleLarge,
             ),
           ],

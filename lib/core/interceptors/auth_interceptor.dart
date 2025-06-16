@@ -35,9 +35,9 @@ final class AuthInterceptor extends Interceptor {
         return handler.resolve(cloneRequest);
       } catch (e) {
         sl<AuthManager>().clearSession();
-        sl<RouterManager>().goNamed(
+        sl<RouterManager>().go(
           Routes.login,
-          pathParameters: <String, String>{Routes.loginPageShowSessionExpiredWarning: true.toString()},
+          extra: true,
         );
       }
     }

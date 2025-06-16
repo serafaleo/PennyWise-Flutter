@@ -4,6 +4,7 @@ import 'package:pennywise/core/configs/theme.dart';
 import 'package:pennywise/core/managers/auth_manager.dart';
 import 'package:pennywise/core/managers/router_manager.dart';
 import 'package:pennywise/core/service_locator.dart';
+import 'package:pennywise/l10n/app_localizations.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,6 +29,7 @@ class MainApp extends StatelessWidget {
       locale: ptBR,
       supportedLocales: const <Locale>[ptBR],
       localizationsDelegates: const <LocalizationsDelegate<Object>>[
+        AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
