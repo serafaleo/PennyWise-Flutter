@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:pennywise/features/home/domain/entities/transaction.dart';
-import 'package:pennywise/features/home/presentation/widgets/transaction_list_item.dart';
+import 'package:pennywise/features/transactions/domain/entities/transaction.dart';
+import 'package:pennywise/features/transactions/presentation/widgets/transaction_list_item.dart';
 
 class TransactionList extends StatelessWidget {
   final List<Transaction> transactions;

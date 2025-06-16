@@ -18,5 +18,5 @@ class AppLocalizationsPt extends AppLocalizations {
   String get signUpPageTitle => 'Cadastre-se';
 
   @override
-  String get signUpPageSubtitle => 'Cria sua conta';
+  String get signUpPageSubtitle => 'Crie sua conta';
 }

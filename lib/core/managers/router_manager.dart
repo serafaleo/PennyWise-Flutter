@@ -8,7 +8,10 @@ import 'package:pennywise/core/service_locator.dart';
 import 'package:pennywise/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:pennywise/features/auth/presentation/pages/login_page.dart';
 import 'package:pennywise/features/auth/presentation/pages/signup_page.dart';
+import 'package:pennywise/features/categories/presentation/pages/categories_page.dart';
 import 'package:pennywise/features/home/presentation/pages/home_page.dart';
+import 'package:pennywise/features/settings/presentation/pages/settings_page.dart';
+import 'package:pennywise/features/transactions/presentation/pages/transactions_page.dart';
 
 abstract interface class RouterManager {
   GoRouter get router;
@@ -46,6 +49,18 @@ final class RouterManagerImpl implements RouterManager {
           path: Routes.signUp,
           builder: (BuildContext context, GoRouterState state) =>
               BlocProvider<AuthBloc>(create: (_) => AuthBloc(), child: const SignUpPage()),
+        ),
+        GoRoute(
+          path: Routes.categories,
+          builder: (BuildContext context, GoRouterState state) => const CategoriesPage(),
+        ),
+        GoRoute(
+          path: Routes.transactions,
+          builder: (BuildContext context, GoRouterState state) => const TransactionsPage(),
+        ),
+        GoRoute(
+          path: Routes.settings,
+          builder: (BuildContext context, GoRouterState state) => const SettingsPage(),
         ),
       ],
     );

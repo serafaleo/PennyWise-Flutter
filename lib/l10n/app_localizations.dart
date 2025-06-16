@@ -112,7 +112,7 @@ abstract class AppLocalizations {
   /// No description provided for @signUpPageSubtitle.
   ///
   /// In pt, this message translates to:
-  /// **'Cria sua conta'**
+  /// **'Crie sua conta'**
   String get signUpPageSubtitle;
 }
 

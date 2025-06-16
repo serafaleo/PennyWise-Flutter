@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:pennywise/core/widgets/drawer.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class SettingsPage extends StatefulWidget {
+  const SettingsPage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<SettingsPage> createState() => _SettingsPageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Home'), centerTitle: true),
+      appBar: AppBar(title: const Text('Configurações'), centerTitle: true),
       drawer: const PennyWiseDrawer(),
       body: const Center(
         child: Text('Home'),

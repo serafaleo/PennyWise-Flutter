@@ -60,9 +60,18 @@ class PennyWiseDrawer extends StatelessWidget {
               ],
             ),
           ),
-          _buildDrawerItem(Icons.category, 'Categorias', () {}),
-          _buildDrawerItem(Icons.receipt_long, 'Transações', () {}),
-          _buildDrawerItem(Icons.settings, 'Configurações', () {}),
+          _buildDrawerItem(Icons.home, 'Home', () {
+            context.go(Routes.home);
+          }),
+          _buildDrawerItem(Icons.category, 'Categorias', () {
+            context.go(Routes.categories);
+          }),
+          _buildDrawerItem(Icons.receipt_long, 'Transações', () {
+            context.go(Routes.transactions);
+          }),
+          _buildDrawerItem(Icons.settings, 'Configurações', () {
+            context.go(Routes.settings);
+          }),
         ],
       ),
     );
