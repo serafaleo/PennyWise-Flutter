@@ -10,6 +10,9 @@ import 'package:pennywise/core/interceptors/timeout_interceptor.dart';
 
 abstract interface class DioManager {
   Future<Response<Object>> post(String url, {Object? data});
+  Future<Response<Object>> get(String url, {Map<String, dynamic>? queryParameters});
+  Future<Response<Object>> delete(String url);
+  Future<Response<Object>> put(String url, {Object? data});
   Future<Response<Object>> request(String url, {Options? options});
 }
 
@@ -38,6 +41,21 @@ final class DioManagerImpl implements DioManager {
   @override
   Future<Response<Object>> post(String url, {Object? data}) async {
     return await _dio.post(url, data: data);
+  }
+
+  @override
+  Future<Response<Object>> get(String url, {Map<String, dynamic>? queryParameters}) async {
+    return await _dio.get(url, queryParameters: queryParameters);
+  }
+
+  @override
+  Future<Response<Object>> delete(String url) async {
+    return await _dio.delete(url);
+  }
+
+  @override
+  Future<Response<Object>> put(String url, {Object? data}) async {
+    return await _dio.put(url, data: data);
   }
 
   @override

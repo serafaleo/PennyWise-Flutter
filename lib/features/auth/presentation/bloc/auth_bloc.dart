@@ -5,8 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:pennywise/core/errors/failure.dart';
 import 'package:pennywise/core/service_locator.dart';
-import 'package:pennywise/features/auth/domain/entities/signup_request_entity.dart';
 import 'package:pennywise/features/auth/domain/entities/login_request_entity.dart';
+import 'package:pennywise/features/auth/domain/entities/signup_request_entity.dart';
 import 'package:pennywise/features/auth/domain/usecases/login_usecase.dart';
 import 'package:pennywise/features/auth/domain/usecases/logout_usecase.dart';
 import 'package:pennywise/features/auth/domain/usecases/signup_usecase.dart';
@@ -28,7 +28,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       (Failure failure) => emit(AuthFailureState(failure: failure)),
       (Unit unit) => emit(SignUpSuccessState()),
     );
-    return null;
   }
 
   FutureOr<void> _onAuthLogin(AuthLoginEvent event, Emitter<AuthState> emit) async {
@@ -37,7 +36,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       (Failure failure) => emit(AuthFailureState(failure: failure)),
       (Unit unit) => emit(LoginSuccessState()),
     );
-    return null;
   }
 
   FutureOr<void> _onAuthLogout(AuthLogoutEvent event, Emitter<AuthState> emit) async {
@@ -46,6 +44,5 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       (Failure failure) => emit(AuthFailureState(failure: failure)),
       (Unit unit) => emit(LogoutSuccessState()),
     );
-    return null;
   }
 }
