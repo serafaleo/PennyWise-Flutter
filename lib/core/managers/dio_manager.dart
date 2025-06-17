@@ -13,7 +13,15 @@ abstract interface class DioManager {
   Future<Response<Object>> get(String url, {Map<String, dynamic>? queryParameters});
   Future<Response<Object>> delete(String url);
   Future<Response<Object>> put(String url, {Object? data});
-  Future<Response<Object>> request(String url, {Options? options});
+  Future<Response<Object>> request(
+    String url,
+    Object? data,
+    Map<String, dynamic>? queryParameter,
+    CancelToken? cancelToken,
+    Options? options,
+    void Function(int, int)? onSendProgress,
+    void Function(int, int)? onReceiveProgress,
+  );
 }
 
 final class DioManagerImpl implements DioManager {
@@ -59,7 +67,23 @@ final class DioManagerImpl implements DioManager {
   }
 
   @override
-  Future<Response<Object>> request(String url, {Options? options}) async {
-    return await _dio.request(url, options: options);
+  Future<Response<Object>> request(
+    String url,
+    Object? data,
+    Map<String, dynamic>? queryParameter,
+    CancelToken? cancelToken,
+    Options? options,
+    void Function(int, int)? onSendProgress,
+    void Function(int, int)? onReceiveProgress,
+  ) async {
+    return await _dio.request(
+      url,
+      data: data,
+      queryParameters: queryParameter,
+      cancelToken: cancelToken,
+      options: options,
+      onSendProgress: onSendProgress,
+      onReceiveProgress: onReceiveProgress,
+    );
   }
 }

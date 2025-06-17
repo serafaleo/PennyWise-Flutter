@@ -30,9 +30,8 @@ final class AuthInterceptor extends Interceptor {
           ),
         );
         sl<AuthManager>().saveSession(newToken);
-        err.response!.requestOptions.headers['Authorization'] = 'Bearer ${newToken.accessToken}';
-        final Response<Object> cloneRequest = await sl<DioManager>().request(err.response!.requestOptions.path);
-        return handler.resolve(cloneRequest);
+        final Response<Object> clonedRequest = await _retryRequest(err);
+        return handler.resolve(clonedRequest);
       } catch (e) {
         sl<AuthManager>().clearSession();
         sl<RouterManager>().go(
@@ -42,5 +41,33 @@ final class AuthInterceptor extends Interceptor {
       }
     }
     handler.next(err);
+  }
+
+  Future<Response<Object>> _retryRequest(DioException err) async {
+    // Clone and retry the request
+    final RequestOptions opts = err.requestOptions;
+    final Response<Object> clonedRequest = await sl<DioManager>().request(
+      opts.path,
+      opts.data,
+      opts.queryParameters,
+      opts.cancelToken,
+      Options(
+        method: opts.method,
+        headers: opts.headers,
+        contentType: opts.contentType,
+        responseType: opts.responseType,
+        followRedirects: opts.followRedirects,
+        validateStatus: opts.validateStatus,
+        receiveDataWhenStatusError: opts.receiveDataWhenStatusError,
+        extra: opts.extra,
+        requestEncoder: opts.requestEncoder,
+        responseDecoder: opts.responseDecoder,
+        sendTimeout: opts.sendTimeout,
+        receiveTimeout: opts.receiveTimeout,
+      ),
+      opts.onReceiveProgress,
+      opts.onSendProgress,
+    );
+    return clonedRequest;
   }
 }
